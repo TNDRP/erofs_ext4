@@ -9,12 +9,16 @@ echo ""
 rm -rf product > /dev/null 2>&1
 rm -rf system > /dev/null 2>&1
 rm -rf system_ext > /dev/null 2>&1
+rm -rf system_dlkm > /dev/null 2>&1
 rm -rf config > /dev/null 2>&1
 rm -rf vendor > /dev/null 2>&1
+rm -rf vendor_dlkm > /dev/null 2>&1
 rm -rf odm > /dev/null 2>&1
 
 ./bin/extract.erofs -x -f -i ./ori/system.img
+./bin/extract.erofs -x -f -i ./ori/system_dlkm.img
 ./bin/extract.erofs -x -f -i ./ori/vendor.img
+./bin/extract.erofs -x -f -i ./ori/vendor_dlkm.img
 ./bin/extract.erofs -x -f -i ./ori/odm.img
 ./bin/extract.erofs -x -f -i ./ori/product.img
 ./hm
