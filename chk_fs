@@ -1,14 +1,18 @@
 #!/bin/bash
 
 s_path="./ori/system.img"
+s_d_path="./ori/system_dlkm.img"
 p_path="./ori/product.img"
 v_path="./ori/vendor.img"
+v_d_path="./ori/vendor_dlkm.img"
 o_path="./ori/odm.img"
 
 # Use blkid to determine the filesystem type
 s_type=$(blkid -o value -s TYPE "$s_path")
+s_d_type=$(blkid -o value -s TYPE "$s_d_path")
 p_type=$(blkid -o value -s TYPE "$p_path")
 v_type=$(blkid -o value -s TYPE "$v_path")
+v_d_type=$(blkid -o value -s TYPE "$v_d_path")
 o_type=$(blkid -o value -s TYPE "$o_path")
 
 echo ""
