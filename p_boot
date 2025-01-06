@@ -1,0 +1,31 @@
+
+#!/bin/bash
+
+echo ""
+echo "-------------------------------"
+echo "  Patching fstab in boot Image"
+echo "-------------------------------"
+
+
+rm -rf ./last/boot.img  > /dev/null 2>&1
+
+# Clean up existing files
+rm -rf ./aik/unsigned-new.img > /dev/null 2>&1
+rm -rf ./aik/ramdisk > /dev/null 2>&1
+rm -rf ./aik/split_img > /dev/null 2>&1
+
+# Copy boot.img from ./stat to ./boot_up
+cp ./stat/boot.img ./aik
+
+./aik/unpackimg.sh
+./aik/t.sh
+./aik/repackimg.sh
+
+cp ./aik/unsigned-new.img ./last
+
+echo ""
+echo "-------------------------------"
+echo "  Done "
+echo "-------------------------------"
+
+./vb

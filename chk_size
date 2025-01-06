@@ -1,0 +1,53 @@
+#!/bin/bash
+
+system_path="./out_ext4/system.new.img"
+product_path="./out_ext4/product.new.img"
+vendor_path="./out_ext4/vendor.new.img"
+odm_path="./out_ext4/odm.new.img"
+
+rm -rf product  > /dev/null 2>&1
+rm -rf system  > /dev/null 2>&1
+rm -rf system_ext  > /dev/null 2>&1
+rm -rf config  > /dev/null 2>&1
+rm -rf vendor  > /dev/null 2>&1
+rm -rf odm  > /dev/null 2>&1
+
+# Read the size from the text file into a variable
+read -r size_from_file < "./orignal_super_size"
+
+echo "-------------------------------"
+echo "Super size $size_from_file bytes"
+echo "-------------------------------"
+
+
+threshold_size=$size_from_file
+
+
+# Function to check if the size is below the threshold
+check_size() {
+    local total_size=0
+    local file_paths=("$@")
+
+    for file_path in "${file_paths[@]}"; do
+        local file_size=$(stat -c "%s" "$file_path")
+        ((total_size += file_size))
+    done
+
+    if ((total_size < threshold_size)); then
+        echo "$total_size"
+        ./mk_super
+    else
+        echo "  EXT4 Images cannot fit to Super"
+        echo "  You have to do this manually"
+        exit 1
+
+    fi
+}
+
+
+# Check the sum of sizes
+echo "$(check_size "$system_path" "$product_path" "$vendor_path" "$odm_path") bytes"
+
+echo "-------------------------------"
+echo ""
+

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+folder_path="./rom"
+
+# Use du to calculate the size of the folder in bytes
+folder_size_bytes=$(du -sb "$folder_path" | awk '{print $1}')
+
+echo "Size of $folder_path: $folder_size_bytes bytes"

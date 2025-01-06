@@ -1,0 +1,49 @@
+#!/bin/bash
+chmod 755 ./*
+./perm
+echo ""
+echo "-------------------------------"
+echo " Unziping AP"
+echo "-------------------------------"
+echo ""
+
+
+rm -rf odin > /dev/null 2>&1
+rm -rf stat > /dev/null 2>&1
+rm -rf rom > /dev/null 2>&1
+rm -rf lz4 > /dev/null 2>&1
+
+mkdir odin
+rm -rf last > /dev/null 2>&1
+mv ap.zip ./odin
+unzip ./odin/ap.zip -d ./odin
+rm -rf ./odin/ap.zip > /dev/null 2>&1
+
+# Count the number of tar.md5 files in the current directory
+count=$(ls -1 ./odin/*.tar.md5 2>/dev/null | wc -l)
+
+# Check if there is only one tar.md5 file
+if [ $count -eq 1 ]; then
+    # If only one tar.md5 file, run shh.sh
+    ./main
+else
+    # If more than one tar.md5 file, print a message
+    echo ""
+    echo "-------------------------------"
+    echo "  You must use AP file"
+    echo "-------------------------------"
+    echo ""
+    echo "-------------------------------"
+    echo "  Not Full package (ap/bl/cp/csc)"
+    echo "-------------------------------"
+    echo ""
+    echo "-------------------------------"
+    echo "  Incorrect file format"
+    echo "-------------------------------"
+    echo ""
+    echo "Error: Only one tar.md5 file should be present."
+
+
+fi
+
+

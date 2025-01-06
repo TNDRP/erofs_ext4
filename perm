@@ -1,0 +1,6 @@
+echo ""
+
+chmod 755 ./*
+chmod 755 ./bin/*
+chmod 755 ./aik/bin/*
+chmod 755 ./aik/*

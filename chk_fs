@@ -1,0 +1,27 @@
+#!/bin/bash
+
+s_path="./ori/system.img"
+p_path="./ori/product.img"
+v_path="./ori/vendor.img"
+o_path="./ori/odm.img"
+
+# Use blkid to determine the filesystem type
+s_type=$(blkid -o value -s TYPE "$s_path")
+p_type=$(blkid -o value -s TYPE "$p_path")
+v_type=$(blkid -o value -s TYPE "$v_path")
+o_type=$(blkid -o value -s TYPE "$o_path")
+
+echo ""
+echo "-------------------------------"
+# Check for erofs
+if [[ $s_type == "erofs" && $p_type == "erofs" && $v_type == "erofs" && $o_type == "erofs" ]]; then
+    echo "  All images are in EROFS format"
+    echo "-------------------------------"
+    ./unpack_erofs
+else
+    echo "  Not all images are in EROFS format. Exiting..."
+    echo "-------------------------------"
+    exit 1
+fi
+echo ""
+

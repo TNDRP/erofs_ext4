@@ -1,0 +1,57 @@
+
+#!/bin/bash
+
+echo ""
+echo "-------------------------------"
+echo "  Paking as tar "
+echo "-------------------------------"
+
+rm -rf ./last/readme.txt > /dev/null 2>&1
+cp ./prebuilt/readme.txt ./last
+rm -rf ./last/ext4_rw_ap.tar > /dev/null 2>&1
+rm -rf ./last/EXT4_RW_AP.zip > /dev/null 2>&1
+
+# Change the current directory to ./boot_up
+cd ./last || exit
+
+
+# Copy boot.img from ./stat to ./boot_up
+mv unsigned-new.img boot.img
+mv super.new.img super.img
+tar -cvf ext4_rw_ap.tar boot.img vbmeta.img vbmeta_system.img super.img
+rm -rf boot.img > /dev/null 2>&1
+rm -rf unsigned-new.img > /dev/null 2>&1
+rm -rf super.img > /dev/null 2>&1
+rm -rf super.new.img > /dev/null 2>&1
+rm -rf vbmeta_system.img > /dev/null 2>&1
+rm -rf vbmeta.img > /dev/null 2>&1
+
+#
+
+echo ""
+echo "-------------------------------"
+echo "  Done "
+echo "-------------------------------"
+
+echo ""
+echo "-------------------------------"
+echo "  Compressing as a Zip "
+echo "-------------------------------"
+zip EXT4_RW_AP.zip -r ./*
+rm -rf ext4_rw_ap.tar
+
+echo ""
+echo "-------------------------------"
+echo "  Done "
+echo "-------------------------------"
+
+echo ""
+echo "-------------------------------"
+echo "  See readme after unpacking zip "
+echo "-------------------------------"
+
+
+# Return to the original directory
+cd - || exit
+
+

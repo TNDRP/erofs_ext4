@@ -1,0 +1,16 @@
+#!/bin/bash
+
+file_path="./rom/super.raw"
+size_file="orignal_super_size"
+
+# Get the size of the file in bytes
+file_size=$(stat -c "%s" "$file_path")
+
+# Save the size to a text file
+echo "$file_size" > "$size_file"
+echo "File size saved to $size_file"
+
+# Read the size from the text file into a variable
+read -r size_from_file < "./orignal_super_size"
+
+echo "Size read from file: $size_from_file bytes"

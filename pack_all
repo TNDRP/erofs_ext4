@@ -1,0 +1,33 @@
+#!/bin/bash
+
+echo ""
+echo "-------------------------------"
+echo "  Packing as EXT4    "
+echo "-------------------------------"
+echo ""
+
+rm -rf out_ext4 > /dev/null 2>&1
+mkdir out_ext4
+rm -rf ori > /dev/null 2>&1
+
+# Execute script2.sh using the dot operator
+. pack_sys_ext4
+
+# Execute script2.sh using the dot operator
+. pack_pro_ext4
+
+
+# Execute script2.sh using the dot operator
+. pack_vend_ext4
+
+# Execute script2.sh using the dot operator
+. pack_odm_ext4
+
+rm -rf product  > /dev/null 2>&1
+rm -rf system  > /dev/null 2>&1
+rm -rf system_ext  > /dev/null 2>&1
+rm -rf config  > /dev/null 2>&1
+rm -rf vendor  > /dev/null 2>&1
+rm -rf odm  > /dev/null 2>&1
+
+./chk_size

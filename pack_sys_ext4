@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# Use du to calculate the size of the folder in bytes
+folder_path="./system"
+additional_size_mb=100
+
+# Use du to calculate the size of the folder in bytes
+folder_size_bytes=$(du -sb "$folder_path" | awk '{print $1}')
+
+# Calculate size in megabytes
+folder_size_mb=$(echo "scale=2; $folder_size_bytes / 1024 / 1024" | bc)
+
+# Add 50MB to the folder size
+adjusted_size_bytes=$(echo "$folder_size_bytes + $additional_size_mb * 1024 * 1024" | bc)
+
+# Calculate adjusted size in megabytes
+adjusted_size_mb=$(echo "scale=2; $adjusted_size_bytes / 1024 / 1024" | bc)
+
+echo ""
+echo "-------------------------------"
+echo " Size of ERFOS System Partition"
+echo "-------------------------------"
+echo "  $folder_size_bytes bytes"
+echo "  ${folder_size_mb} MB"
+echo "-------------------------------"
+echo ""
+echo "-------------------------------"
+echo " Size of EXT4 System Partition"
+echo "-------------------------------"
+echo "  ${adjusted_size_bytes} bytes"
+echo "  ${adjusted_size_mb} MB"
+echo "-------------------------------"
+echo ""
+
+echo ""
+echo "-------------------------------"
+echo "  Packing System    "
+echo "-------------------------------"
+echo ""
+
+./bin/make_ext4fs -J -T -1 -S ./config/system_file_contexts -C ./config/system_fs_config -l  $adjusted_size_bytes -a /system system.new.img system
+
+mv system.new.img ./out_ext4
+
+echo ""
+echo "-------------------------------"
+echo "  Done    "
+echo "-------------------------------"
+echo ""

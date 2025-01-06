@@ -1,0 +1,38 @@
+#!/bin/bash
+rm ./prebuilt/readme.txt > /dev/null 2>&1
+# Read values from build.prop
+code_name=$(grep "ro.product.system.device" ./system/system/build.prop | cut -d= -f2 | tr -d '[:space:]')
+model=$(grep "ro.product.system.model" ./system/system/build.prop | cut -d= -f2 | tr -d '[:space:]')
+android_version=$(grep "ro.system.build.version.release_or_codename" ./system/system/build.prop | cut -d= -f2 | tr -d '[:space:]')
+firmware=$(grep "ro.system.build.version.incremental" ./system/system/build.prop | cut -d= -f2 | tr -d '[:space:]')
+
+# Write values to readme.txt
+echo "Code_Name          = $code_name" > ./prebuilt/readme.txt
+echo "Model              = $model" >> ./prebuilt/readme.txt
+echo "Android Version    = $android_version" >> ./prebuilt/readme.txt
+echo "Firmware           = $firmware" >> ./prebuilt/readme.txt
+
+echo "" >> ./prebuilt/readme.txt
+echo "Flash the same version $firmware of BL CP AP CSC according to your country before flashing EXT4 RW AP File" >> ./prebuilt/readme.txt
+echo "" >> ./prebuilt/readme.txt
+echo "Open below link select your country then scroll down then Search firmware:$firmware" >> ./prebuilt/readme.txt
+echo "" >> ./prebuilt/readme.txt
+echo "https://samfw.com/firmware/$model" >> ./prebuilt/readme.txt
+echo "" >> ./prebuilt/readme.txt
+echo "Download and flash BL AP CP CSC (original)" >> ./prebuilt/readme.txt
+echo "Let Device boot to android" >> ./prebuilt/readme.txt
+echo "Then Flash ext4 RW AP.tar" >> ./prebuilt/readme.txt
+echo "Fomat data and reboot" >> ./prebuilt/readme.txt
+echo "" >> ./prebuilt/readme.txt
+echo "Skip all if you alredy on $firmware. Just flash it via odin " >> ./prebuilt/readme.txt
+echo "" >> ./prebuilt/readme.txt
+echo "" >> ./prebuilt/readme.txt
+echo "Check Build Number in About Device if you dont know your Firmware Version" >> ./prebuilt/readme.txt
+echo "" >> ./prebuilt/readme.txt
+echo "If you want to use magisk on ext4, " >> ./prebuilt/readme.txt
+echo "" >> ./prebuilt/readme.txt
+echo "patch the boot.img from ext4 ap.tar " >> ./prebuilt/readme.txt
+echo "" >> ./prebuilt/readme.txt
+
+
+

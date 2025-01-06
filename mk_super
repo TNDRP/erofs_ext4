@@ -1,0 +1,106 @@
+#!/bin/bash
+rm -rf ./product
+rm -rf ./odm
+rm -rf ./system
+rm -rf ./vendor
+rm -rf ./system_ext
+
+system_path="out_ext4/system.new.img"
+odm_path="out_ext4/odm.new.img"
+vendor_path="out_ext4/vendor.new.img"
+product_path="out_ext4/product.new.img"
+
+# Read the size from the text file into a variable
+read -r size_super < "./orignal_super_size"
+
+
+
+# Check if the file exists
+if [ -e "$system_path" ]; then
+    # Get the size of the file in bytes and save it to a variable
+    system_size=$(stat -c "%s" "$system_path")
+    
+    # Display the size
+    echo ""
+    echo "-------------------------------"
+    echo "  System Partition    "
+    echo "-------------------------------"
+    echo ""
+    echo "  System $system_size bytes"
+    
+else
+    echo "  EXT4 System not found"
+fi
+
+
+# Check if the file exists
+if [ -e "$product_path" ]; then
+    # Get the size of the file in bytes and save it to a variable
+    product_size=$(stat -c "%s" "$product_path")
+    
+    # Display the size
+    echo ""
+    echo "-------------------------------"
+    echo "  Product Partition    "
+    echo "-------------------------------"
+    echo ""    
+    echo "  Product $product_size bytes"
+    
+else
+    echo "  EXT4 Product not found"
+fi
+
+# Check if the file exists
+if [ -e "$odm_path" ]; then
+    # Get the size of the file in bytes and save it to a variable
+    odm_size=$(stat -c "%s" "$odm_path")
+    
+    # Display the size
+    echo ""
+    echo "-------------------------------"
+    echo "  Odm Partition    "
+    echo "-------------------------------"
+    echo ""
+    echo "  Odm $odm_size bytes"
+    
+else
+    echo "  EXT4 Odm not found"
+fi
+
+# Check if the file exists
+if [ -e "$vendor_path" ]; then
+    # Get the size of the file in bytes and save it to a variable
+    vendor_size=$(stat -c "%s" "$vendor_path")
+    
+    # Display the size
+    echo ""
+    echo "-------------------------------"
+    echo "  Vendor Partition    "
+    echo "-------------------------------"
+    echo ""
+
+    echo "  Vendor $vendor_size bytes"
+    
+else
+    echo "  EXT4 Vendor not found"
+fi
+
+sum=$((odm_size + product_size + vendor_size + system_size))
+
+echo ""
+echo "-------------------------------"
+echo "  Packing Super    "
+echo "-------------------------------"
+echo ""
+
+# Generate logical partition metadata
+./bin/lpmake --metadata-size 65536 --super-name super --metadata-slots 2 --device super:$size_super --group main:$size_super --partition system:readonly:$system_size:main --image system=$system_path --partition vendor:readonly:$vendor_size:main --image vendor=$vendor_path --partition product:readonly:$product_size:main --image product=$product_path --partition odm:readonly:$odm_size:main --image odm=$odm_path --sparse --output ./super.new.img
+
+rm -rf ./out_ext4
+echo ""
+echo "-------------------------------"
+echo "  Done    "
+echo "-------------------------------"
+echo ""
+
+./end

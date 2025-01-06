@@ -1,0 +1,21 @@
+#!/bin/bash
+
+rm -rf last  > /dev/null 2>&1
+mkdir last
+mv super.new.img ./last 
+
+echo ""
+echo "-------------------------------"
+echo " Patching fstab in Boot image"
+echo "-------------------------------"
+echo ""
+
+. p_boot
+
+echo ""
+echo "-------------------------------"
+echo "  Done "
+echo "-------------------------------"
+echo ""
+
+./p_tar

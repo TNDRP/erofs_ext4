@@ -1,0 +1,42 @@
+#!/bin/bash
+
+echo ""
+echo "-------------------------------"
+echo "  Unpacking EROFS Partitions   "
+echo "-------------------------------"
+echo ""
+
+rm -rf product > /dev/null 2>&1
+rm -rf system > /dev/null 2>&1
+rm -rf system_ext > /dev/null 2>&1
+rm -rf config > /dev/null 2>&1
+rm -rf vendor > /dev/null 2>&1
+rm -rf odm > /dev/null 2>&1
+
+./bin/extract.erofs -x -f -i ./ori/system.img
+./bin/extract.erofs -x -f -i ./ori/vendor.img
+./bin/extract.erofs -x -f -i ./ori/odm.img
+./bin/extract.erofs -x -f -i ./ori/product.img
+./hm
+# Check if the file exists
+if [ -e "./ori/system_ext.img" ]; then
+    # If the file exists, execute the command
+    ./bin/extract.erofs -x -f -i ./ori/system_ext.img
+    echo ""
+    echo "-------------------------------"
+    echo "  Done   "
+    echo "-------------------------------"
+    echo ""
+    ./pack_all_ext
+
+else
+    echo ""
+    echo "-------------------------------"
+    echo "  Done   "
+    echo "-------------------------------"
+    echo ""
+    ./pack_all
+fi
+
+
+

@@ -1,0 +1,4 @@
+
+#!/bin/bash
+chmod 755 ./*
+sudo apt install -y cpio bc simg2img lz4 git device-tree-compiler lz4 xz-utils zlib1g-dev openjdk-17-jdk gcc g++ python3 python-is-python3 p7zip-full android-sdk-libsparse-utils erofs-utils

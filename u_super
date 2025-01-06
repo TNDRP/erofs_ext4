@@ -1,0 +1,19 @@
+#!/bin/bash
+
+echo ""
+echo "-------------------------------"
+echo "  Extracing Super.img        "
+echo "-------------------------------"
+echo ""
+
+./bin/lpunpack ./rom/super.raw
+rm -rf ori > /dev/null 2>&1
+rm -rf ./rom/super.raw > /dev/null 2>&1
+mkdir ori 
+mv system.img ./ori
+mv system_ext.img ./ori > /dev/null 2>&1
+mv product.img ./ori  
+mv odm.img ./ori  
+mv vendor.img ./ori  
+
+./chk_fs

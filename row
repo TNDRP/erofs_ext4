@@ -1,0 +1,36 @@
+#!/bin/bash
+
+echo ""
+echo "-------------------------------"
+echo "  Convering to RAW        "
+echo "-------------------------------"
+echo ""
+rm -rf ./rom/super.raw > /dev/null 2>&1
+rm -rf out_ext4  > /dev/null 2>&1
+rm -rf orignal_super_size > /dev/null 2>&1
+simg2img ./rom/super.img ./rom/super.raw
+rm -rf ./rom/super.img > /dev/null 2>&1
+
+file_path="./rom/super.raw"
+size_file="orignal_super_size"
+
+# Get the size of the file in bytes
+file_size=$(stat -c "%s" "$file_path")
+
+# Save the size to a text file
+echo "$file_size" > "$size_file"
+#echo "File size saved to $size_file"
+
+# Read the size from the text file into a variable
+read -r size_from_file < "./orignal_super_size"
+
+#echo "Size read from file: $size_from_file bytes"
+
+
+echo ""
+echo "-------------------------------"
+echo "  Done       "
+echo "-------------------------------"
+echo ""
+
+./u_super
