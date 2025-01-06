@@ -2,14 +2,18 @@
 rm -rf product  > /dev/null 2>&1
 rm -rf system  > /dev/null 2>&1
 rm -rf system_ext  > /dev/null 2>&1
+rm -rf system_dlkm  > /dev/null 2>&1
 rm -rf config  > /dev/null 2>&1
 rm -rf vendor  > /dev/null 2>&1
+rm -rf vendor_dlkm  > /dev/null 2>&1
 rm -rf odm  > /dev/null 2>&1
 
 system_path="out_ext4/system.new.img"
 system_ext_path="out_ext4/system_ext.new.img"
+system_dlkm_path="out_ext4/system_dlkm.new.img"
 odm_path="out_ext4/odm.new.img"
 vendor_path="out_ext4/vendor.new.img"
+vendor_dlkm_path="out_ext4/vendor_dlkm.new.img"
 product_path="out_ext4/product.new.img"
 
 # Read the size from the text file into a variable
@@ -54,7 +58,40 @@ fi
 if [ -e "$product_path" ]; then
     # Get the size of the file in bytes and save it to a variable
     product_size=$(stat -c "%s" "$product_path")
+
+# Check if the file exists
+if [ -e "$system_path" ]; then
+    # Get the size of the file in bytes and save it to a variable
+    system_size=$(stat -c "%s" "$system_path")
     
+    # Display the size
+    echo ""
+    echo "-------------------------------"
+    echo "  System Partition    "
+    echo "-------------------------------"
+    echo ""
+    echo "  System $system_size bytes"
+    
+else
+    echo "  EXT4 System not found"
+fi
+
+if [ -e "$system_dlkm_path" ]; then
+    # Get the size of the file in bytes and save it to a variable
+    system_dlkm_size=$(stat -c "%s" "$system_dlkm_path")
+    
+    # Display the size
+    echo ""
+    echo "-------------------------------"
+    echo "  System_dlkm Partition    "
+    echo "-------------------------------"
+    echo ""
+    echo "  System_DLKM $system_dlkm_size bytes"
+    
+else
+    echo "  EXT4 System_dlkm not found"
+fi
+
     # Display the size
     echo ""
     echo "-------------------------------"
@@ -102,6 +139,24 @@ else
     echo "  EXT4 Vendor not found"
 fi
 
+# Check if the file exists
+if [ -e "$vendor_dlkm_path" ]; then
+    # Get the size of the file in bytes and save it to a variable
+    vendor_dlkm_size=$(stat -c "%s" "$vendor_dlkm_path")
+    
+    # Display the size
+    echo ""
+    echo "-------------------------------"
+    echo "  Vendor_dlkm Partition    "
+    echo "-------------------------------"
+    echo ""
+
+    echo "  Vendor_dlkm $vendor_dlkm_size bytes"
+    
+else
+    echo "  EXT4 Vendor_dlkm not found"
+fi
+
 sum=$((odm_size + product_size + vendor_size + system_size + system_ext_size))
 
 echo ""
@@ -111,7 +166,7 @@ echo "-------------------------------"
 echo ""
 
 # Generate logical partition metadata
-./bin/lpmake --metadata-size 65536 --super-name super --metadata-slots 2 --device super:$size_super --group main:$size_super --partition system:readonly:$system_size:main --image system=$system_path --partition vendor:readonly:$vendor_size:main --image vendor=$vendor_path --partition product:readonly:$product_size:main --image product=$product_path --partition system_ext:readonly:$system_ext_size:main --image system_ext=$system_ext_path --partition odm:readonly:$odm_size:main --image odm=$odm_path --sparse --output ./super.new.img
+./bin/lpmake --metadata-size 65536 --super-name super --metadata-slots 2 --device super:$size_super --group main:$size_super --partition system:readonly:$system_size:main --image system=$system_path --partition vendor:readonly:$vendor_size:main --image vendor=$vendor_path --partition vendor_dlkm:readonly:$vendor_dlkm_size:main --image vendor_dlkm=$vendor_dlkm_path --partition product:readonly:$product_size:main --image product=$product_path --partition system_ext:readonly:$system_ext_size:main --image system_ext=$system_ext_path --partition system_dlkm:readonly:$system_dlkm_size:main --image system_dlkm=$system_dlkm_path --partition odm:readonly:$odm_size:main --image odm=$odm_path --sparse --output ./super.new.img
 rm -rf ./out_ext4
 
 echo ""
