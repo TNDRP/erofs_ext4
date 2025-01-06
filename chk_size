@@ -1,15 +1,19 @@
 #!/bin/bash
 
 system_path="./out_ext4/system.new.img"
+system_dlkm_path="./out_ext4/system.new.img"
 product_path="./out_ext4/product.new.img"
 vendor_path="./out_ext4/vendor.new.img"
+vendor_dlkm_path="./out_ext4/vendor_dlkm.new.img"
 odm_path="./out_ext4/odm.new.img"
 
 rm -rf product  > /dev/null 2>&1
 rm -rf system  > /dev/null 2>&1
 rm -rf system_ext  > /dev/null 2>&1
+rm -rf system_dlkm  > /dev/null 2>&1
 rm -rf config  > /dev/null 2>&1
 rm -rf vendor  > /dev/null 2>&1
+rm -rf vendor_dlkm  > /dev/null 2>&1
 rm -rf odm  > /dev/null 2>&1
 
 # Read the size from the text file into a variable
