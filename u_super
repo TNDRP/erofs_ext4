@@ -12,8 +12,10 @@ rm -rf ./rom/super.raw > /dev/null 2>&1
 mkdir ori 
 mv system.img ./ori
 mv system_ext.img ./ori > /dev/null 2>&1
+mv system_dlkm.img ./ori
 mv product.img ./ori  
 mv odm.img ./ori  
-mv vendor.img ./ori  
+mv vendor.img ./ori
+mv vendor_dlkm.img ./ori
 
 ./chk_fs
