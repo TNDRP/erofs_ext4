@@ -1,8 +1,10 @@
 #!/bin/bash
 
 system_path="./out_ext4/system.new.img"
+system_dlkm_path="./out_ext4/system_dlkm.new.img"
 product_path="./out_ext4/product.new.img"
 vendor_path="./out_ext4/vendor.new.img"
+vendor_dlkm_path="./out_ext4/vendor_dlkm.new.img"
 odm_path="./out_ext4/odm.new.img"
 ext_path="./out_ext4/system_ext.new.img"
 
@@ -40,11 +42,11 @@ check_size() {
 echo ""
 echo "-------------------------------"
 echo "  Size after EXT4"
-echo "  system+product+vendor+odm+system_ext"
+echo "  system+system_dlkm+product+vendor+vendor_dlkm+odm+system_ext"
 echo "-------------------------------"
 
 # Check the sum of sizes
-echo "$(check_size "$system_path" "$product_path" "$vendor_path" "$odm_path" "$ext_path") bytes"
+echo "$(check_size "$system_path" "$system_dlkm_path" "$product_path" "$vendor_path" "$vendor_dlkm_path" "$odm_path" "$ext_path") bytes"
 
 echo "-------------------------------"
 echo ""
